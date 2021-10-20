@@ -1,6 +1,14 @@
+from defs.gen import dictGen
+
+
+data = list()
+
 with open("frequencia.csv", "r", encoding='utf-8') as file:
-    header = file.readline().rstrip()
-    print(header.split(','))
+    header = file.readline().rstrip().split(',')
     for row in file.readlines():
         line = row.rstrip().split(',')
-        print(line)
+        dictGen(line, data)
+
+
+for i in data:
+    print(i)
