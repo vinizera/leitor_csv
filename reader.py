@@ -1,5 +1,9 @@
 import csv
-from defs.check import logCheck, checkTimeDif
+import json
+
+from defs.check import logCheck, checkTimeDif, calcTime
+
+from datetime import datetime as dt
 
 # Lista que abrigará todos os dicionários referentes a cada linha de frequência registrada:
 data = list()
@@ -18,6 +22,8 @@ with open("frequencia.csv", "r", encoding='utf-8') as file:
         final_dat = row["data_fim"]
         initial_time = row["hora_inicio"]
         final_time = row["hora_fim"]
+        row["total_hora"] = calcTime(final_time, initial_time)
+
         # Validação de log usando id (id_usuário), datas(inicio e fim) com a coleção de chaves válidas:
         if logCheck(id, initial_dat, final_dat, key_set):
             # Validação de datas comparando as entradas das datas de início e fim:
@@ -32,5 +38,14 @@ with open("frequencia.csv", "r", encoding='utf-8') as file:
             continue
 
 
-for i in data:
-    print(i)
+with open('lista_valida.csv', 'w', newline='') as listaValida:
+    fieldnames = ["id_usuario", "data_inicio", "data_fim", "hora_inicio", "hora_fim", "total_hora"]
+    writer = csv.DictWriter(listaValida, fieldnames=fieldnames)
+    writer.writeheader()
+    for row in data:
+        writer.writerow(row)
+
+
+
+
+
