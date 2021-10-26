@@ -82,7 +82,6 @@ def checkTime(time):
     else:
         return False
 
-
 def checkTimeDif(initial_time, final_time):
     initial_time_array = checkTime(initial_time)
     final_time_array = checkTime(final_time)
