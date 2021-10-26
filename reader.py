@@ -3,6 +3,7 @@ from defs.check import logCheck, checkTimeDif
 
 # Lista que abrigará todos os dicionários referentes a cada linha de frequência registrada:
 data = list()
+error_log = list()
 
 # Abertura do arquivo csv para leitura (file):
 with open("frequencia.csv", "r", encoding='utf-8') as file:
@@ -11,6 +12,7 @@ with open("frequencia.csv", "r", encoding='utf-8') as file:
     reader = csv.DictReader(file)
     # Coleção de chaves válidas únicas geradas na função logCheck:
     key_set = set()
+
     # Início de laço para leitura das linhas csv:
     for row in reader:
         id = row["id_usuario"]
@@ -19,7 +21,7 @@ with open("frequencia.csv", "r", encoding='utf-8') as file:
         initial_time = row["hora_inicio"]
         final_time = row["hora_fim"]
         # Validação de log usando id (id_usuário), datas(inicio e fim) com a coleção de chaves válidas:
-        if logCheck(id, initial_dat, final_dat, key_set):
+        if logCheck(id, initial_dat, final_dat, key_set, error_log):
             # Validação de datas comparando as entradas das datas de início e fim:
             if checkTimeDif(initial_time, final_time):
                 # O retorno de confirmação (True) adiciona a linha(dicionário) na lista <data>:
@@ -32,5 +34,8 @@ with open("frequencia.csv", "r", encoding='utf-8') as file:
             continue
 
 
-for i in data:
-    print(i)
+"""for i in data:
+    print(i)"""
+
+for e in error_log:
+    print(e)
