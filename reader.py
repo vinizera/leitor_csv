@@ -1,4 +1,5 @@
 import csv
+from defs.database import insertDataBase
 import json
 
 from defs.check import logCheck, checkTimeDif, calcTime
@@ -31,6 +32,7 @@ with open("frequencia.csv", "r", encoding='utf-8') as file:
             # Validação de datas comparando as entradas das datas de início e fim:
             if checkTimeDif(initial_time, final_time):
                 # O retorno de confirmação (True) adiciona a linha(dicionário) na lista <data>:
+                insertDataBase(id, initial_dat, initial_time, final_dat, final_time)
                 data.append(row)
             else:
                 # O retorno de negação (False) da função <checkTimeDif> ignora a linha:
