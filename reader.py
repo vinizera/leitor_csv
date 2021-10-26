@@ -1,5 +1,6 @@
 import csv
 from defs.database import insertDataBase
+from defs.database import consultUser
 import json
 
 from defs.check import logCheck, checkTimeDif, calcTime
@@ -27,13 +28,14 @@ with open("frequencia.csv", "r", encoding='utf-8') as file:
         initial_time = row["hora_inicio"]
         final_time = row["hora_fim"]
         row["total_hora"] = calcTime(final_time, initial_time)
+        work_time = calcTime(final_time, initial_time)
 
         # Validação de log usando id (id_usuário), datas(inicio e fim) com a coleção de chaves válidas:
         if logCheck(id, initial_dat, final_dat, key_set, error_log):
             # Validação de datas comparando as entradas das datas de início e fim:
             if checkTimeDif(initial_time, final_time):
                 # O retorno de confirmação (True) adiciona a linha(dicionário) na lista <data>:
-                insertDataBase(id, initial_dat, initial_time, final_dat, final_time)
+                # insertDataBase(id, initial_dat, initial_time, final_dat, final_time, work_time)
                 data.append(row)
             else:
                 # O retorno de negação (False) da função <checkTimeDif> ignora a linha:
@@ -56,4 +58,6 @@ with open('lista_valida.csv', 'w', newline='') as listaValida:
     for row in data:
         writer.writerow(row)
 
+print("\n--------------------------------------------------Consultar horas trabalhadas--------------------------------------------------\n")
+consultUser(input('Informe a matrícula para pesquisa: '))
 
