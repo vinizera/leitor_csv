@@ -21,7 +21,7 @@ o usuário realmente existe no banco de dados, se os dados respeitam a ordem de 
 definido (ou se vão inferir a leitura do cabeçalho e ajustar os dados adequadamente), entre outras possíveis
 validações.
 
-Formato sugerido:
+- Formato sugerido:
 
 id do usuário | data início | hora início | data fim | hora fim
 
@@ -32,7 +32,7 @@ Opção: definir se a transação poderá ser desfeita (rollback dos dados) caso
 processamento ou se as operações que não falharem serão salvas no banco e os que falharam serão reportados para
 posterior processamento.
 
-Comentários:
+- Comentários:
 Se houver tempo hábil, ainda pode-se explorar outras funcionalidades, como:
 - fornecer uma API para ser consumida por outros serviços dentro da organização.
 - fazer uma UI para visualização desses dados, também provendo uma forma de passar o arquivo via upload pela UI.
