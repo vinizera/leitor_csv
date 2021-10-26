@@ -9,6 +9,7 @@ from datetime import datetime as dt
 # Lista que abrigará todos os dicionários referentes a cada linha de frequência registrada:
 data = list()
 error_log = list()
+wrong_data = list()
 
 # Abertura do arquivo csv para leitura (file):
 with open("frequencia.csv", "r", encoding='utf-8') as file:
@@ -36,11 +37,17 @@ with open("frequencia.csv", "r", encoding='utf-8') as file:
                 data.append(row)
             else:
                 # O retorno de negação (False) da função <checkTimeDif> ignora a linha:
-                continue
+                wrong_data.append(row)
         else:
             # O retorno de negação (False) da função <logCheck> ignora a linha:
-            continue
+            wrong_data.append(row)
 
+print("-------------------------------------------------Correct Data-------------------------------------------------\n")
+for i in data:
+    print(i)
+print("--------------------------------------------------Wrong Data--------------------------------------------------\n")
+for i in wrong_data:
+    print(i)
 
 with open('lista_valida.csv', 'w', newline='') as listaValida:
     fieldnames = ["id_usuario", "data_inicio", "data_fim", "hora_inicio", "hora_fim", "total_hora"]
