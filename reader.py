@@ -1,5 +1,6 @@
 import csv
 <<<<<<< HEAD
+<<<<<<< HEAD
 from defs.check import logCheck, checkTimeDif, calculateTimeDif
 
 # Lista que abrigará todos os dicionários referentes a cada linha de frequência registrada:
@@ -8,6 +9,9 @@ wrong_data = list()
 
 
 =======
+=======
+from defs.database import insertDataBase
+>>>>>>> 736c90a18f6268742aa79eb0b59f37929554384f
 import json
 
 from defs.check import logCheck, checkTimeDif, calcTime
@@ -17,7 +21,11 @@ from datetime import datetime as dt
 # Lista que abrigará todos os dicionários referentes a cada linha de frequência registrada:
 data = list()
 error_log = list()
+<<<<<<< HEAD
 >>>>>>> 0c856219087753eef832b2c6837451041e3194d5
+=======
+wrong_data = list()
+>>>>>>> 736c90a18f6268742aa79eb0b59f37929554384f
 
 # Abertura do arquivo csv para leitura (file):
 with open("frequencia.csv", "r", encoding='utf-8') as file:
@@ -45,6 +53,7 @@ with open("frequencia.csv", "r", encoding='utf-8') as file:
             # Validação de datas comparando as entradas das datas de início e fim:
             if checkTimeDif(initial_time, final_time):
                 # O retorno de confirmação (True) adiciona a linha(dicionário) na lista <data>:
+                insertDataBase(id, initial_dat, initial_time, final_dat, final_time)
                 data.append(row)
             else:
                 # O retorno de negação (False) da função <checkTimeDif> ignora a linha:
@@ -54,11 +63,20 @@ with open("frequencia.csv", "r", encoding='utf-8') as file:
             wrong_data.append(row)
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 print("\n----------------------------------------------Entradas Corretas----------------------------------------------")
 for i in data:
     print(i)
 
 print("\n----------------------------------------------Entradas Erradas----------------------------------------------")
+=======
+print("-------------------------------------------------Correct Data-------------------------------------------------\n")
+for i in data:
+    print(i)
+print("--------------------------------------------------Wrong Data--------------------------------------------------\n")
+for i in wrong_data:
+    print(i)
+>>>>>>> 736c90a18f6268742aa79eb0b59f37929554384f
 
 for i in wrong_data:
     print(i)
