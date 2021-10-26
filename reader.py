@@ -1,5 +1,6 @@
 import csv
 from defs.check import logCheck, checkTimeDif
+from defs.database import insertDataBase
 
 # Lista que abrigará todos os dicionários referentes a cada linha de frequência registrada:
 data = list()
@@ -23,6 +24,7 @@ with open("frequencia.csv", "r", encoding='utf-8') as file:
             # Validação de datas comparando as entradas das datas de início e fim:
             if checkTimeDif(initial_time, final_time):
                 # O retorno de confirmação (True) adiciona a linha(dicionário) na lista <data>:
+                insertDataBase(id, initial_dat, initial_time, final_dat, final_time)
                 data.append(row)
             else:
                 # O retorno de negação (False) da função <checkTimeDif> ignora a linha:
