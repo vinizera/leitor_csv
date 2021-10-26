@@ -7,6 +7,7 @@ from datetime import datetime as dt
 
 # Lista que abrigará todos os dicionários referentes a cada linha de frequência registrada:
 data = list()
+error_log = list()
 
 # Abertura do arquivo csv para leitura (file):
 with open("frequencia.csv", "r", encoding='utf-8') as file:
@@ -15,6 +16,7 @@ with open("frequencia.csv", "r", encoding='utf-8') as file:
     reader = csv.DictReader(file)
     # Coleção de chaves válidas únicas geradas na função logCheck:
     key_set = set()
+
     # Início de laço para leitura das linhas csv:
     for row in reader:
         id = row["id_usuario"]
@@ -25,7 +27,7 @@ with open("frequencia.csv", "r", encoding='utf-8') as file:
         row["total_hora"] = calcTime(final_time, initial_time)
 
         # Validação de log usando id (id_usuário), datas(inicio e fim) com a coleção de chaves válidas:
-        if logCheck(id, initial_dat, final_dat, key_set):
+        if logCheck(id, initial_dat, final_dat, key_set, error_log):
             # Validação de datas comparando as entradas das datas de início e fim:
             if checkTimeDif(initial_time, final_time):
                 # O retorno de confirmação (True) adiciona a linha(dicionário) na lista <data>:
@@ -44,8 +46,5 @@ with open('lista_valida.csv', 'w', newline='') as listaValida:
     writer.writeheader()
     for row in data:
         writer.writerow(row)
-
-
-
 
 
