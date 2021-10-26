@@ -44,18 +44,21 @@ with open("frequencia.csv", "r", encoding='utf-8') as file:
             # O retorno de negação (False) da função <logCheck> ignora a linha:
             wrong_data.append(row)
 
-print("-------------------------------------------------Correct Data-------------------------------------------------\n")
+print("\n------------------------------------------------Correct Data------------------------------------------------\n")
+
 for i in data:
     print(i)
-print("--------------------------------------------------Wrong Data--------------------------------------------------\n")
+
+print("\n-------------------------------------------------Wrong Data-------------------------------------------------\n")
+
 for i in wrong_data:
     print(i)
 
-with open('lista_valida.csv', 'w', newline='') as listaValida:
+with open('lista_Invalida.csv', 'w', newline='') as listaInvalida:
     fieldnames = ["id_usuario", "data_inicio", "data_fim", "hora_inicio", "hora_fim", "total_hora"]
-    writer = csv.DictWriter(listaValida, fieldnames=fieldnames)
+    writer = csv.DictWriter(listaInvalida, fieldnames=fieldnames)
     writer.writeheader()
-    for row in data:
+    for row in wrong_data:
         writer.writerow(row)
 
 print("\n--------------------------------------------------Consultar horas trabalhadas--------------------------------------------------\n")
