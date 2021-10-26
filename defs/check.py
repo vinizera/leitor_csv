@@ -105,6 +105,14 @@ def checkTimeDif(initial_time, final_time):
     else:
         return True
 
+def calcTime(final_time, initial_time):
+    from datetime import datetime as dt
+
+    format_h = "%H:%M:%S"
+
+    h_calc = str(dt.strptime(final_time, format_h) - dt.strptime(initial_time, format_h))
+
+    return h_calc
 
 def errorDef(id, description):
     from datetime import date
