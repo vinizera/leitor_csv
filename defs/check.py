@@ -1,13 +1,13 @@
 def dayCheck(year, month, day):
     from datetime import datetime
     offset = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334]
-    week = ['Sunday',
-            'Monday',
-            'Tuesday',
-            'Wednesday',
-            'Thursday',
-            'Friday',
-            'Saturday']
+    week = ['Domingo',
+            'Segunda-feira',
+            'Terça-feira',
+            'Quarta-feira',
+            'Quinta-feira',
+            'Sexta-feira',
+            'Sábado']
     correct_date = None
     try:
         new_date = datetime(year, month, day)
@@ -27,13 +27,14 @@ def dayCheck(year, month, day):
     return week[day_of_Week]
 
 
-def logCheck(id, initial_date, final_date, key_set):
+def logCheck(id, initial_date, final_date, key_set, error_log):
     valid_key = None
     initial_date_code = initial_date.replace("-", "")
     final_date_code = final_date.replace("-", "")
     if initial_date_code != final_date_code:
         valid_key = False
         return valid_key
+        # return False, {"id_erro": "datas incompatíveis"}
     while len(initial_date_code) == 8 and str(initial_date_code).isnumeric() and str(id).isnumeric():
 
         date_array = initial_date.split("-")
@@ -43,6 +44,13 @@ def logCheck(id, initial_date, final_date, key_set):
         date_check = dayCheck(year, month, day)
         if not date_check:
             valid_key = False
+            return valid_key
+
+        # Desconsideração de sábados e domingos:
+        elif date_check in "Sábado" or date_check in "Domingo":
+            valid_key = False
+            description = f"Frequência registrada em dia de final de semana ({date_check})."
+            error_log.append(errorDef(id, description))
             return valid_key
 
         key = str(id) + str(initial_date_code)
@@ -95,3 +103,17 @@ def checkTimeDif(initial_time, final_time):
         return False
     else:
         return True
+
+def calcTime(final_time, initial_time):
+    from datetime import datetime as dt
+
+    format_h = "%H:%M:%S"
+
+    h_calc = str(dt.strptime(final_time, format_h) - dt.strptime(initial_time, format_h))
+
+    return h_calc
+
+def errorDef(id, description):
+    from datetime import date
+    info = {"data_registro": date.today(), "id_usuario": id, "descrição": description}
+    return info
