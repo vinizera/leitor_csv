@@ -26,6 +26,7 @@ def tela_principal():
     label = Label(janela, text='Tela Principal')
     label.pack()
 
+    # Incluir um botão para chamar a função importar csv
     menu_bt_importar_csv = Button(janela, text='Importar csv',command=importar_csv)
     menu_bt_importar_csv.place(x=30, y=100)
 
@@ -33,10 +34,6 @@ def tela_principal():
     janela.title("Leitor CSV")
 
     janela.mainloop()
-
-#Incluir um botão para chamar a função importar csv
-menu_bt_importar_csv = Button(janela, text='Importar csv', command=importar_csv)
-menu_bt_importar_csv.place(x=30, y=100)
 
 janela.geometry("300x300+150+50")
 janela.title("Leitor CSV")
