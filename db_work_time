@@ -1,0 +1,15 @@
+DROP DATABASE IF EXISTS work_time;
+CREATE DATABASE IF NOT EXISTS work_time;
+
+DROP TABLE IF EXISTS informacoes;
+CREATE TABLE IF NOT EXISTS informacoes(
+	id INT NOT NULL AUTO_INCREMENT,
+	id_user INT UNSIGNED NOT NULL,
+    date_start DATE NOT NULL,
+	hour_start TIME NOT NULL,
+    date_end DATE NOT NULL,
+    hour_end TIME NOT NULL,
+    worked_hours TIME NOT NULL,
+    CONSTRAINT pk_id PRIMARY KEY (id),
+    CONSTRAINT only_numbers_id_user CHECK (id_user REGEXP '^[0-9]{7}$')
+);
