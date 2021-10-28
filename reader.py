@@ -1,11 +1,7 @@
 import csv
 from defs.database import insertDataBase
 from defs.database import consultUser
-import json
-
 from defs.check import logCheck, checkTimeDif, calcTime
-
-from datetime import datetime as dt
 
 # Lista que abrigará todos os dicionários referentes a cada linha de frequência registrada:
 data = list()
@@ -35,7 +31,7 @@ with open("frequencia.csv", "r", encoding='utf-8') as file:
             # Validação de datas comparando as entradas das datas de início e fim:
             if checkTimeDif(initial_time, final_time):
                 # O retorno de confirmação (True) adiciona a linha(dicionário) na lista <data>:
-                # insertDataBase(id, initial_dat, initial_time, final_dat, final_time, work_time)
+                insertDataBase(id, initial_dat, initial_time, final_dat, final_time, work_time)
                 data.append(row)
             else:
                 # O retorno de negação (False) da função <checkTimeDif> ignora a linha:
@@ -61,6 +57,15 @@ with open('lista_Invalida.csv', 'w', newline='') as listaInvalida:
     for row in wrong_data:
         writer.writerow(row)
 
-print("\n--------------------------------------------------Consultar horas trabalhadas--------------------------------------------------\n")
-consultUser(input('Informe a matrícula para pesquisa: '))
-
+print("\n------------------------------------------------------------------------------------------------------------\n")
+option = True
+while option:
+    print('Para consultar horas trabalhadas por um determinado funcionário digite [ 1 ] ou qualquer outro número encerra o programa')
+    choice = input('Informe sua escolha: ')
+    if choice == '1':
+        print("\n----------------------------------------Consultar horas trabalhadas-----------------------------------------\n")
+        consultUser(input('Informe a matrícula para pesquisa: '))
+        print("\n------------------------------------------------------------------------------------------------------------\n")
+    else:
+        option = False
+        print('Programa encerrado.')

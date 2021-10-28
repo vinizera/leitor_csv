@@ -1,6 +1,6 @@
 import mysql.connector
 
-
+# Insere informações no bando de dados MySql
 def insertDataBase(id, initial_dat, initial_time, final_dat, final_time, work_time):
     connection = mysql.connector.connect(host='localhost', database='work_time', user='root', password='1234')
     try:
@@ -19,24 +19,20 @@ def insertDataBase(id, initial_dat, initial_time, final_dat, final_time, work_ti
         if connection.is_connected():
              cursor.close()
              connection.close()
-             # print('Conexão ao MySql encerrada.')
 
 
+# Consulta informações no bando de dados MySql
 def consultUser(id):
     connection = mysql.connector.connect(host='localhost', database='work_time', user='root', password='1234')
     try:
         cursor = connection.cursor()
-        consult_sql = "SELECT * FROM informacoes WHERE id_user = %s"
-        values = (id, )
-        cursor.execute(consult_sql, values)
+        cursor.execute("""SELECT time_format(SEC_TO_TIME(SUM(TIME_TO_SEC(worked_hours))),'%H:%i:%S')
+        AS total_horas FROM informacoes where id_user = %s""", (id, ))
         rows = cursor.fetchall()
-
-        if not rows:
+        if not rows[0][0]:
             print('Matrícula não encontrada')
         else:
-            for row in rows:
-                print('Matrícula: ', row[1])
-                print('Horas trabalhadas: ', row[6])
+            print(f'A matrícula \033[4;36m{id}\033[m tem como horas trabalhadas: \033[4;36m{rows[0][0]}\033[m')
 
     except Exception as exp:
         print(exp)
@@ -45,4 +41,3 @@ def consultUser(id):
         if connection.is_connected():
             cursor.close()
             connection.close()
-            print('Conexão ao MySql encerrada.')
