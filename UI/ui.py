@@ -1,12 +1,12 @@
 from tkinter import *
-from tkinter import filedialog, ttk
+from tkinter import filedialog, ttk, messagebox
 from tkinter.ttk import *
 import tkinter as tk
 import csv
 
 import defs.database
 from defs.check import calcTime, logCheck, checkTimeDif
-from defs.database import insertDataBase, allUser
+from defs.database import insertDataBase
 
 #################################################################################
 
@@ -21,9 +21,6 @@ def get_file_csv(file_entry):
 
 
 def reader_csv():
-
-    data = list()
-
     file = entry_csv["text"]
     csv_file = r"{}".format(file)
 
@@ -48,10 +45,7 @@ def reader_csv():
                 if logCheck(id, initial_dat, final_dat, key_set, error_log):
                     if checkTimeDif(initial_time, final_time):
                         insertDataBase(id, initial_dat, initial_time, final_dat, final_time, work_time)
-
-    label_status = Label(ws, text='Uploaded Successfully!', foreground='green').place(width=200, height=18, x=235, y=115)
-    entry_csv["text"] = ""
-
+    labelView()
 
 def info_table():
     tv.delete(*tv.get_children())
@@ -63,7 +57,20 @@ def info_table():
 def search_view():
     tv2.delete(*tv2.get_children())
     row = defs.database.searchUser(search.get())
-    tv2.insert("", "end", values=(row[0], row[1]))
+    if row[1] == [(None,)]:
+        messagebox.showerror("Search Error", "Matricula Invalida")
+    else:
+        tv2.insert("", "end", values=(row[0], row[1]))
+
+def clearEntry():
+    entry_csv.delete(0, END)
+
+def clearSearch():
+    search.delete(0, END)
+
+def labelView():
+    Label(ws, text='Uploaded Successfully!', foreground='green').place(width=200, height=18, x=235, y=115)
+
 
 ###############################################################################
 
@@ -73,6 +80,8 @@ ws.geometry('600x700')
 ws.pack_propagate(False)
 ws.resizable(0, 0)
 
+style = Style()
+style.configure('W.TButton', foreground='green', background='green')
 
 entry_csv = Entry(ws, text="")
 entry_csv.place(width=340, height=25, x=100, y=40)
@@ -80,15 +89,16 @@ entry_csv.place(width=340, height=25, x=100, y=40)
 search = Entry(ws, text="")
 search.place(width=450, height=25, x=17, y=165)
 
+
 #############################################################################
 
 bt_choose = Button(ws, text="Choose", command=lambda: get_file_csv(entry_csv))
 bt_choose.place(width=60, height=25, x=450, y=40)
 
-bt_upload = Button(ws, text="Upload", command=lambda: reader_csv())
+bt_upload = Button(ws, text="Upload", style='W.TButton', command=lambda: [reader_csv(), clearEntry(), info_table()])
 bt_upload.place(width=150, height=30, x=225, y=80)
 
-bt_search = Button(ws, text="Search", command=lambda: search_view())
+bt_search = Button(ws, text="Search", command=lambda: [search_view(), clearSearch()])
 bt_search.place(width=100, height=25, x=470, y=165)
 
 bt_update = Button(ws, text="Update", command=lambda: info_table())
@@ -111,7 +121,6 @@ tv2.column('MT', width=100, anchor=tk.CENTER)
 tv2.column('TTH', width=450, anchor=tk.CENTER)
 tv2.heading('MT', text='MATRICULA', anchor=tk.CENTER)
 tv2.heading('TTH', text='TOTAL HORA', anchor=tk.CENTER)
-search_view()
 tv2.pack()
 
 ###############################################################################

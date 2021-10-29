@@ -1,6 +1,6 @@
 import mysql.connector
 
-
+# Insere informações no bando de dados MySql
 def insertDataBase(id, initial_dat, initial_time, final_dat, final_time, work_time):
     connection = mysql.connector.connect(host='localhost', database='db_projects',
                                          user='root', password='196404', auth_plugin='mysql_native_password')
@@ -46,6 +46,7 @@ def searchUser(id):
     return info
 
 
+# Consulta informações no bando de dados MySql
 def consultUser(id):
     connection = mysql.connector.connect(host='localhost', database='db_projects',
                                          user='root', password='196404', auth_plugin='mysql_native_password')
@@ -53,6 +54,7 @@ def consultUser(id):
         cursor = connection.cursor()
         cursor.execute("""SELECT time_format(SEC_TO_TIME(SUM(TIME_TO_SEC(worked_hours))),'%H:%i:%S')
             AS total_horas FROM employee where id_user = %s""", (id,))
+
         rows = cursor.fetchall()
         if not rows[0][0]:
             print('Matrícula não encontrada')
